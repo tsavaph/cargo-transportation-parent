@@ -1,0 +1,20 @@
+server:
+  port: 8761
+
+spring:
+  application:
+    name: cargo-transportation-eureka-server
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://localhost:8678/eureka
+
+logging:
+  level:
+    com.netflix.eureka: off
+    com.netflix.com.netflix.discovery: off
+  pattern:
+    console: "%d{yyyy-MM-dd-HH:mm:ss:SSS} %X %-5p {%c} {%t} %m%n"
