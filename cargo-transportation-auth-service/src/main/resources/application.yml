@@ -33,4 +33,4 @@ jwt:
   tokenLifetimeHours: ${jwt-token-lifetime}
 
 user-info-service:
-  url: ${user-info-service.url}
+  url: "/api/v1/user-info/save"

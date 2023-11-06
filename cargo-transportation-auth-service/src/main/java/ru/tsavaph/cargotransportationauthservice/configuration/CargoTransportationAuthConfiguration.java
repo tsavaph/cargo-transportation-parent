@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.client.RestTemplate;
+import ru.tsavaph.cargotransportationauthservice.feign.UserInfoService;
 import ru.tsavaph.cargotransportationauthservice.repository.UserRepository;
 import ru.tsavaph.cargotransportationauthservice.service.JwtService;
 import ru.tsavaph.cargotransportationauthservice.service.authentication.AuthenticationService;
@@ -58,10 +59,10 @@ public class CargoTransportationAuthConfiguration {
             UserRepository repository,
             PasswordEncoder passwordEncoder,
             JwtService jwtService,
-            RestTemplate restTemplate) {
+            UserInfoService userInfoService) {
 
         var registerService = new RegisterServiceImpl(repository, passwordEncoder, jwtService);
-        return new RegisterServiceSendUserInfoDecorator(registerService, restTemplate);
+        return new RegisterServiceSendUserInfoDecorator(registerService, userInfoService);
     }
 
 }
