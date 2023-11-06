@@ -19,8 +19,3 @@ COMMENT ON COLUMN user_table.role IS 'Роль пользователя';
 --changeset tsavaph:create-user-table-phone-number-password-index
 CREATE INDEX idx_user_table_phone_number_password ON user_table(phone_number, password);
 --rollback DROP INDEX idx_user_table_phone_number_password;
-
-
-
-
-

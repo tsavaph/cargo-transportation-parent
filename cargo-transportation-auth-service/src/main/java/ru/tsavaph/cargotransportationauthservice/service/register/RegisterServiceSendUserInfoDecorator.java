@@ -15,7 +15,7 @@ public class RegisterServiceSendUserInfoDecorator implements RegisterService {
     public AuthenticationResponse register(RegisterRequest request) {
         var userInfo = UserInfoDto.builder()
                 .name(request.getName())
-                .phoneNumber(request.getPhoneNumber())
+                .login(request.getPhoneNumber())
                 .email(request.getEmail())
                 .build();
 
