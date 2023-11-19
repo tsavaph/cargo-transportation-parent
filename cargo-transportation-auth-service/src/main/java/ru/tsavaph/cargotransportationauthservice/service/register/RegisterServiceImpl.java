@@ -2,7 +2,6 @@ package ru.tsavaph.cargotransportationauthservice.service.register;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 import ru.tsavaph.cargotransportationauthservice.domain.*;
 import ru.tsavaph.cargotransportationauthservice.repository.UserRepository;
 import ru.tsavaph.cargotransportationauthservice.domain.user.Role;
