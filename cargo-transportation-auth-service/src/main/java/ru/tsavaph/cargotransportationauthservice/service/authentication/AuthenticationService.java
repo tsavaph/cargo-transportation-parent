@@ -1,6 +1,7 @@
 package ru.tsavaph.cargotransportationauthservice.service.authentication;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import ru.tsavaph.cargotransportationauthservice.domain.AuthenticationRequest;
 import ru.tsavaph.cargotransportationauthservice.domain.AuthenticationResponse;
 import ru.tsavaph.cargotransportationauthservice.exception.UserNotFoundException;
@@ -13,6 +14,7 @@ public class AuthenticationService {
     private final UserRepository repository;
     private final JwtService jwtService;
 
+    @Transactional(readOnly = true)
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         var user = repository.findByPhoneNumber(request.getPhoneNumber())
                 .orElseThrow(() -> new UserNotFoundException("User is not registered"));
