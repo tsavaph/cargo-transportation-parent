@@ -19,9 +19,14 @@ public class VerificationService {
         var login = jwtService.extractLogin(jwt);
         var user = repository.findByPhoneNumber(login);
 
-        return new VerifyResponse(
-                jwtService.isTokenValid(jwt, user.orElseThrow())
-        );
+        if (user.isPresent()) {
+            return new VerifyResponse(
+                    jwtService.isTokenValid(jwt, user.get())
+            );
+        }
+
+        return new VerifyResponse(false);
+
     }
 
 }
