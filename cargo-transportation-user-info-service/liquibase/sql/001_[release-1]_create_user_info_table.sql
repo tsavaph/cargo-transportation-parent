@@ -5,8 +5,8 @@ CREATE SEQUENCE IF NOT EXISTS user_info_table_id_seq START WITH 1 INCREMENT BY 1
 CREATE TABLE user_info_table
 (
     id BIGINT PRIMARY KEY DEFAULT nextval('user_info_table_id_seq'),
-    login VARCHAR(12),
-    name VARCHAR(255),
+    login VARCHAR(12) NOT NULL UNIQUE,
+    name VARCHAR(255) NOT NULL,
     email VARCHAR(255)
 );
 COMMENT ON TABLE user_info_table IS 'Таблица с информацией о пользователе';

@@ -1,4 +1,4 @@
-package ru.tsavaph.cargotransportationuserinfoservice;
+package ru.tsavaph.cargotransportationuserinfoservice.mapper;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

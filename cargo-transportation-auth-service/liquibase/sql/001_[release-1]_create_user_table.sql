@@ -5,9 +5,9 @@ CREATE SEQUENCE IF NOT EXISTS user_table_id_seq START WITH 1 INCREMENT BY 1;
 CREATE TABLE user_table
 (
     id BIGINT PRIMARY KEY DEFAULT nextval('user_table_id_seq'),
-    phone_number VARCHAR(12),
-    password VARCHAR(255),
-    role VARCHAR(255)
+    phone_number VARCHAR(12) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(255) NOT NULL
 );
 COMMENT ON TABLE user_table IS 'Таблица пользователей';
 COMMENT ON COLUMN user_table.id IS 'Идентификатор пользователя';
