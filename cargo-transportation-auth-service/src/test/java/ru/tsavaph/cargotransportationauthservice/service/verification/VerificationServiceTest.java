@@ -9,21 +9,22 @@ import org.mockito.Mockito;
 import ru.tsavaph.cargotransportationauthservice.domain.VerifyRequest;
 import ru.tsavaph.cargotransportationauthservice.domain.user.User;
 import ru.tsavaph.cargotransportationauthservice.repository.UserRepository;
-import ru.tsavaph.cargotransportationauthservice.service.JwtService;
+import ru.tsavaph.cargotransportationauthservice.feign.JwtService;
+import ru.tsavaph.cargotransportationauthservice.service.TokenService;
 
 import java.util.Optional;
 
 class VerificationServiceTest {
 
     private UserRepository repositoryMock;
-    private JwtService jwtServiceMock;
+    private TokenService tokenService;
     private VerificationService verificationService;
 
     @BeforeEach
     void init() {
         repositoryMock = Mockito.mock(UserRepository.class);
-        jwtServiceMock = Mockito.mock(JwtService.class);
-        verificationService = new VerificationService(repositoryMock, jwtServiceMock);
+        tokenService = Mockito.mock(TokenService.class);
+        verificationService = new VerificationService(repositoryMock, tokenService);
     }
 
     @ParameterizedTest
@@ -33,9 +34,9 @@ class VerificationServiceTest {
         var login = "login";
         var user = User.builder().build();
 
-        Mockito.when(jwtServiceMock.extractLogin(token)).thenReturn(login);
+        Mockito.when(tokenService.extractLogin(token)).thenReturn(login);
         Mockito.when(repositoryMock.findByPhoneNumber(login)).thenReturn(Optional.of(user));
-        Mockito.when(jwtServiceMock.isTokenValid(token, user)).thenReturn(isValid);
+        Mockito.when(tokenService.isTokenValid(token, user)).thenReturn(isValid);
 
         var verifyRequest = VerifyRequest.builder()
                 .token(token)
@@ -43,9 +44,9 @@ class VerificationServiceTest {
 
         var result = verificationService.verify(verifyRequest);
 
-        Mockito.verify(jwtServiceMock).extractLogin(token);
+        Mockito.verify(tokenService).extractLogin(token);
         Mockito.verify(repositoryMock).findByPhoneNumber(login);
-        Mockito.verify(jwtServiceMock).isTokenValid(token, user);
+        Mockito.verify(tokenService).isTokenValid(token, user);
 
         Assertions.assertEquals(isValid, result.getIsTokenValid());
     }
@@ -55,7 +56,7 @@ class VerificationServiceTest {
         var token = "token";
         var login = "login";
 
-        Mockito.when(jwtServiceMock.extractLogin(token)).thenReturn(login);
+        Mockito.when(tokenService.extractLogin(token)).thenReturn(login);
         Mockito.when(repositoryMock.findByPhoneNumber(login)).thenReturn(Optional.empty());
 
         var verifyRequest = VerifyRequest.builder()
@@ -64,7 +65,7 @@ class VerificationServiceTest {
 
         var result = verificationService.verify(verifyRequest);
 
-        Mockito.verify(jwtServiceMock).extractLogin(token);
+        Mockito.verify(tokenService).extractLogin(token);
         Mockito.verify(repositoryMock).findByPhoneNumber(login);
 
         Assertions.assertEquals(false, result.getIsTokenValid());

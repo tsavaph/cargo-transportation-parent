@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import ru.tsavaph.cargotransportationauthservice.domain.AuthenticationResponse;
 import ru.tsavaph.cargotransportationauthservice.domain.RegisterRequest;
-import ru.tsavaph.cargotransportationauthservice.domain.UserInfoDto;
+import ru.tsavaph.cargotransportationauthservice.domain.userinfo.UserInfoDto;
 import ru.tsavaph.cargotransportationauthservice.exception.UserInfoServiceException;
 import ru.tsavaph.cargotransportationauthservice.feign.UserInfoService;
 

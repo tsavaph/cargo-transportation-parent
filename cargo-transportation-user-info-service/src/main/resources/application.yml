@@ -1,13 +1,13 @@
 server:
-  port: 0
+  port: 8081
 
 spring:
   application:
     name: cargo-transportation-user-info-service
   datasource:
-    url: ${db-url}
-    username: ${db-username}
-    password: ${db-password}
+    url: jdbc:postgresql://localhost:5432/security?currentSchema=user_info
+    username: tsavaph
+    password: 1235
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:

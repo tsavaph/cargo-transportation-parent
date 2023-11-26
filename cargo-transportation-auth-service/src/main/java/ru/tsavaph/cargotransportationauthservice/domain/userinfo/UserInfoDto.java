@@ -1,4 +1,4 @@
-package ru.tsavaph.cargotransportationauthservice.domain;
+package ru.tsavaph.cargotransportationauthservice.domain.userinfo;
 
 import lombok.Builder;
 import lombok.Data;

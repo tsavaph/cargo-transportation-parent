@@ -1,21 +1,15 @@
 package ru.tsavaph.cargotransportationauthservice.service.register;
 
 import feign.FeignException;
-import feign.Request;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.tsavaph.cargotransportationauthservice.domain.AuthenticationResponse;
 import ru.tsavaph.cargotransportationauthservice.domain.RegisterRequest;
-import ru.tsavaph.cargotransportationauthservice.domain.UserInfoDto;
+import ru.tsavaph.cargotransportationauthservice.domain.userinfo.UserInfoDto;
 import ru.tsavaph.cargotransportationauthservice.exception.UserInfoServiceException;
 import ru.tsavaph.cargotransportationauthservice.feign.UserInfoService;
-import ru.tsavaph.cargotransportationauthservice.repository.UserRepository;
-import ru.tsavaph.cargotransportationauthservice.service.JwtService;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class RegisterServiceSendUserInfoDecoratorTest {
 

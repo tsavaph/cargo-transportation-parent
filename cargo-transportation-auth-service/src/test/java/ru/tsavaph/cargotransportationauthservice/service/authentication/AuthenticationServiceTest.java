@@ -9,21 +9,22 @@ import ru.tsavaph.cargotransportationauthservice.domain.user.Role;
 import ru.tsavaph.cargotransportationauthservice.domain.user.User;
 import ru.tsavaph.cargotransportationauthservice.exception.UserNotFoundException;
 import ru.tsavaph.cargotransportationauthservice.repository.UserRepository;
-import ru.tsavaph.cargotransportationauthservice.service.JwtService;
+import ru.tsavaph.cargotransportationauthservice.feign.JwtService;
+import ru.tsavaph.cargotransportationauthservice.service.TokenService;
 
 import java.util.Optional;
 
 class AuthenticationServiceTest {
 
     private UserRepository repositoryMock;
-    private JwtService jwtServiceMock;
+    private TokenService tokenService;
     private AuthenticationService authenticationService;
 
     @BeforeEach
     void init() {
         repositoryMock = Mockito.mock(UserRepository.class);
-        jwtServiceMock = Mockito.mock(JwtService.class);
-        authenticationService = new AuthenticationService(repositoryMock, jwtServiceMock);
+        tokenService = Mockito.mock(TokenService.class);
+        authenticationService = new AuthenticationService(repositoryMock, tokenService);
     }
 
     @Test
@@ -42,12 +43,12 @@ class AuthenticationServiceTest {
         var token = "TOKEN";
 
         Mockito.when(repositoryMock.findByPhoneNumber(phoneNumber)).thenReturn(Optional.of(user));
-        Mockito.when(jwtServiceMock.generateToken(user)).thenReturn(token);
+        Mockito.when(tokenService.generateToken(user)).thenReturn(token);
 
         var result =  authenticationService.authenticate(authRequest);
 
         Mockito.verify(repositoryMock).findByPhoneNumber(phoneNumber);
-        Mockito.verify(jwtServiceMock).generateToken(user);
+        Mockito.verify(tokenService).generateToken(user);
 
         Assertions.assertEquals(token, result.getToken());
     }
@@ -65,7 +66,7 @@ class AuthenticationServiceTest {
         Assertions.assertThrows(UserNotFoundException.class, () -> authenticationService.authenticate(authRequest));
 
         Mockito.verify(repositoryMock).findByPhoneNumber(phoneNumber);
-        Mockito.verifyNoInteractions(jwtServiceMock);
+        Mockito.verifyNoInteractions(tokenService);
 
     }
 
