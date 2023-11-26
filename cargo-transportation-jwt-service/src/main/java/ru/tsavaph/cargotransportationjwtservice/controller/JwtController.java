@@ -13,17 +13,17 @@ public class JwtController {
 
     private final JwtService jwtService;
 
-    @GetMapping("/generate-token")
+    @PostMapping("/generate-token")
     public ResponseEntity<GenerateTokenResponse> generate(@RequestBody GenerateTokenRequest request) {
         return ResponseEntity.ok(jwtService.generateToken(request));
     }
 
-    @GetMapping("/verify-token")
+    @PostMapping("/verify-token")
     public ResponseEntity<VerifyTokenResponse> verify(@RequestBody VerifyTokenRequest request) {
         return ResponseEntity.ok(jwtService.verifyToken(request));
     }
 
-    @GetMapping("/extract-login")
+    @PostMapping("/extract-login")
     public ResponseEntity<ExtractLoginResponse> extractLogin(@RequestBody ExtractLoginRequest request) {
         return ResponseEntity.ok(jwtService.extractLogin(request));
     }
