@@ -27,14 +27,14 @@ public class AuthenticationController {
         return ResponseEntity.ok(registerService.register(request));
     }
 
-    @GetMapping("/authenticate")
+    @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody @Valid AuthenticationRequest request
     ) {
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 
-    @GetMapping("/verify")
+    @PostMapping("/verify")
     public ResponseEntity<VerifyResponse> verify(
             @RequestBody @Valid VerifyRequest request
     ) {
