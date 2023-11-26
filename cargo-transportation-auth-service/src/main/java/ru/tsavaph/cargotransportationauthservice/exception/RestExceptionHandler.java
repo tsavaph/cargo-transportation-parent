@@ -1,6 +1,5 @@
 package ru.tsavaph.cargotransportationauthservice.exception;
 
-import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -44,14 +43,6 @@ public class RestExceptionHandler {
         return new ResponseEntity<>(
                 exception.getMessage(),
                 exception.getHttpStatus()
-        );
-    }
-
-    @ExceptionHandler(value = JwtException.class)
-    public ResponseEntity<String> jwt(JwtException exception) {
-        return new ResponseEntity<>(
-                exception.getMessage(),
-                HttpStatus.BAD_REQUEST
         );
     }
 

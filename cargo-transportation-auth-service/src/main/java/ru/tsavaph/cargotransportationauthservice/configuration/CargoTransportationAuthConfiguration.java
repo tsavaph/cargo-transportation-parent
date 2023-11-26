@@ -7,7 +7,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.tsavaph.cargotransportationauthservice.feign.UserInfoService;
 import ru.tsavaph.cargotransportationauthservice.repository.UserRepository;
-import ru.tsavaph.cargotransportationauthservice.service.JwtService;
+import ru.tsavaph.cargotransportationauthservice.feign.JwtService;
+import ru.tsavaph.cargotransportationauthservice.service.TokenService;
 import ru.tsavaph.cargotransportationauthservice.service.authentication.AuthenticationService;
 import ru.tsavaph.cargotransportationauthservice.service.register.RegisterService;
 import ru.tsavaph.cargotransportationauthservice.service.register.RegisterServiceImpl;
@@ -19,43 +20,34 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 public class CargoTransportationAuthConfiguration {
 
-    @Value("${jwt.secretKey}")
-    private String secretKey;
-
-    @Value("${jwt.tokenLifetimeHours}")
-    private long tokenLifetimeHours;
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public JwtService jwtService() {
-        return new JwtService(
-                TimeUnit.HOURS.toMillis(tokenLifetimeHours),
-                secretKey
-        );
+    public TokenService tokenService(JwtService jwtService) {
+        return new TokenService(jwtService);
     }
 
     @Bean
-    public AuthenticationService authenticationService(UserRepository repository, JwtService jwtService) {
-        return new AuthenticationService(repository, jwtService);
+    public AuthenticationService authenticationService(UserRepository repository, TokenService tokenService) {
+        return new AuthenticationService(repository, tokenService);
     }
 
     @Bean
-    public VerificationService verificationService(UserRepository repository, JwtService jwtService) {
-        return new VerificationService(repository, jwtService);
+    public VerificationService verificationService(UserRepository repository, TokenService tokenService) {
+        return new VerificationService(repository, tokenService);
     }
 
     @Bean
     public RegisterService registerService(
             UserRepository repository,
             PasswordEncoder passwordEncoder,
-            JwtService jwtService,
+            TokenService tokenService,
             UserInfoService userInfoService) {
 
-        var registerService = new RegisterServiceImpl(repository, passwordEncoder, jwtService);
+        var registerService = new RegisterServiceImpl(repository, passwordEncoder, tokenService);
         return new RegisterServiceSendUserInfoDecorator(registerService, userInfoService);
     }
 

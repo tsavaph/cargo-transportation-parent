@@ -1,4 +1,4 @@
-package ru.tsavaph.cargotransportationauthservice.service;
+package ru.tsavaph.cargotransportationjwtservice.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -6,7 +6,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
-import ru.tsavaph.cargotransportationauthservice.domain.user.User;
 
 import java.security.Key;
 import java.util.Collections;
@@ -15,30 +14,30 @@ import java.util.Map;
 import java.util.function.Function;
 
 @RequiredArgsConstructor
-public class JwtService {
+public class TokenService {
     private final long tokenLifetimeMs;
     private final String secretKey;
-    public String generateToken(User user) {
-        return generateToken(Collections.emptyMap(), user);
+    public String generateToken(String login) {
+        return generateToken(Collections.emptyMap(), login);
     }
 
     public String generateToken(
             Map<String, Object> extraClaims,
-            User user
+            String login
     ) {
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
-                .setSubject(user.getPhoneNumber())
+                .setSubject(login)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + tokenLifetimeMs))
                 .signWith(getSignIngKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public boolean isTokenValid(String token, User user) {
-        var login = extractLogin(token);
-        return login.equals(user.getPhoneNumber()) && !isTokenExpired(token);
+    public boolean isTokenValid(String token, String login) {
+        var tokenLogin = extractLogin(token);
+        return tokenLogin.equals(login) && !isTokenExpired(token);
     }
 
     public String extractLogin(String token) {

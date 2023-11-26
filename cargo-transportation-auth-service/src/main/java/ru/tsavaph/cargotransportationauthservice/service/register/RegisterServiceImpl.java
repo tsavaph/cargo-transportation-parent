@@ -7,13 +7,13 @@ import ru.tsavaph.cargotransportationauthservice.exception.UserAlreadyExistsExce
 import ru.tsavaph.cargotransportationauthservice.repository.UserRepository;
 import ru.tsavaph.cargotransportationauthservice.domain.user.Role;
 import ru.tsavaph.cargotransportationauthservice.domain.user.User;
-import ru.tsavaph.cargotransportationauthservice.service.JwtService;
+import ru.tsavaph.cargotransportationauthservice.service.TokenService;
 
 @RequiredArgsConstructor
 public class RegisterServiceImpl implements RegisterService {
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
+    private final TokenService tokenService;
 
     @Override
     public AuthenticationResponse register(RegisterRequest request) {
@@ -28,7 +28,7 @@ public class RegisterServiceImpl implements RegisterService {
                 .build();
         repository.save(user);
 
-        var jwtToken = jwtService.generateToken(user);
+        var jwtToken = tokenService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();

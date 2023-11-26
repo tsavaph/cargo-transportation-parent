@@ -28,9 +28,11 @@ logging:
   pattern:
     console: "%d{yyyy-MM-dd-HH:mm:ss:SSS} %X %-5p {%c} {%t} %m%n"
 
-jwt:
-  secretKey: ${jwt-secret-key}
-  tokenLifetimeHours: ${jwt-token-lifetime}
-
 user-info-service:
   url: "/api/v1/user-info/save"
+
+jwt-service:
+  url:
+    generate: "/api/v1/jwt/generate-token"
+    verify: "/api/v1/jwt/verify-token"
+    extract: "/api/v1/jwt/extract-login"
