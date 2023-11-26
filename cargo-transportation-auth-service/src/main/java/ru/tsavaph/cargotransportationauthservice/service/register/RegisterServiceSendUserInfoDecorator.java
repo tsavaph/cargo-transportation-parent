@@ -36,4 +36,5 @@ public class RegisterServiceSendUserInfoDecorator implements RegisterService {
         }
         return response;
     }
+
 }
